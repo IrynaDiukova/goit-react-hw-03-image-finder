@@ -1,15 +1,13 @@
-import { Component } from 'react';
+import React, {Component} from 'react';
 import pixabayAPI from '../services/api-service';
 import { ToastContainer, toast } from 'react-toastify';
 import { Layout } from './Layout';
+import { GlobalStyle } from './GlobalStyle';
 import Searchbar from './Searchbar/Searchbar';
-// import { Layout } from './Layout';
-// import { GlobalStyle } from './GlobalStyle';
-// import Searchbar from './Searchbar';
-// import ImageGallery from './ImageGallery';
-// import Button from './Button';
-// import Modal from './Modal';
-import Loader from './Loader';
+import ImageGallery from './ImageGallery/ImageGallery';
+import Button from './Button/Button';
+import Modal from './Modal';
+import Loader from './Loader/Loader';
 
 export class App extends Component {
   state ={
@@ -56,7 +54,7 @@ export class App extends Component {
     } catch (error) {
       toast.error(error.message);
     } finally {
-      this.setState('resolved');
+       this.setStatus('resolved');
     }
   }
 
@@ -88,6 +86,26 @@ export class App extends Component {
     return (
       <Layout>
         <Searchbar onSearch={this.setNewSearch}/>
+
+        {images.length > 0 && (
+          <ImageGallery images={images} onClick={this.setActiveImageUrl}/>
+        )}
+
+        {activeImage && (
+          <Modal
+          url={activeImage}
+          onClose={() => this.setActiveImageUrl(null)}
+          />
+        )}
+
+        {isVisibleButton && (
+          <Button onClick={this.setNextPage}>Load More</Button>
+        )}
+          
+        {status === 'loading' && <Loader/>}
+
+        <ToastContainer theme="colored" autoClose={3000}/>
+        <GlobalStyle/>
       </Layout>
        
     );
