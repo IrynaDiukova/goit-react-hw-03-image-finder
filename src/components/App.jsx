@@ -1,13 +1,13 @@
-import React, {Component} from 'react';
+import {Component} from 'react';
 import pixabayAPI from '../services/api-service';
 import { ToastContainer, toast } from 'react-toastify';
 import { Layout } from './Layout';
 import { GlobalStyle } from './GlobalStyle';
-import Searchbar from './Searchbar/Searchbar';
-import ImageGallery from './ImageGallery/ImageGallery';
-import Button from './Button/Button';
+import Searchbar from './Searchbar';
+import ImageGallery from './ImageGallery';
+import Button from './Button';
 import Modal from './Modal';
-import Loader from './Loader/Loader';
+import Loader from './Loader';
 
 export class App extends Component {
   state ={
@@ -72,7 +72,7 @@ export class App extends Component {
     });
   };
 
-  setActiveImageUrl = url => this.setState({ activelImg: url });
+  setActiveImageUrl = url => this.setState({ activeImage: url });
 
   setNextPage = () => this.setState(({ page }) => ({ page: page + 1}));
 
@@ -93,8 +93,8 @@ export class App extends Component {
 
         {activeImage && (
           <Modal
-          url={activeImage}
-          onClose={() => this.setActiveImageUrl(null)}
+            url={activeImage}
+            onClose={() => this.setActiveImageUrl(null)}
           />
         )}
 
